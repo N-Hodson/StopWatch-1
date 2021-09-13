@@ -9,10 +9,10 @@
 
     <Chronometer
         android:id="@+id/chronometer_main_stopwatch"
-        android:layout_width="77dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="324dp"
-        android:layout_marginEnd="192dp"
+        android:layout_width="89dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="412dp"
+        android:layout_marginEnd="72dp"
         android:scaleX="4"
         android:scaleY="4"
         app:layout_constraintEnd_toEndOf="parent"
