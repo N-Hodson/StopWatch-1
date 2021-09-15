@@ -14,30 +14,29 @@ class MainActivity : AppCompatActivity() {
     lateinit var start: Button
     lateinit var reset: Button
     lateinit var stopwatch: Chronometer
-    var x = false
+    var on = false
+    var time = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         wireWidgets()
-        var time = 0
         start.setOnClickListener {
-            if (!x) {
+            if (!on) {
                 stopwatch.base = SystemClock.elapsedRealtime()+time
                 stopwatch.start()
-                x = true
+                on = true
             }
-            else if (x){
+            else if (on){
                 stopwatch.stop()
-                x = false
-                time = (stopwatch.base - SystemClock.elapsedRealtime()).toInt()
+                on = false
+                time = (stopwatch.base - SystemClock.elapsedRealtime())
             }
         }
         reset.setOnClickListener {
             stopwatch.base = SystemClock.elapsedRealtime()
             time = 0
         }
-
     }
 
     private fun wireWidgets() {
@@ -46,6 +45,24 @@ class MainActivity : AppCompatActivity() {
         stopwatch = findViewById(R.id.chronometer_main_stopwatch)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if(on){
+            time = (SystemClock.elapsedRealtime()-stopwatch.base)
+        }
+        outState.putLong("saveTime", time)
+        outState.putBoolean("saveOn", on)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        time = savedInstanceState.getLong("savedTime")
+        on = savedInstanceState.getBoolean("saveOn")
+        stopwatch.base = SystemClock.elapsedRealtime()-time
+        if(on){
+            stopwatch.start()
+        }
+    }
 
     companion object {
         val TAG = "MainActivity"
@@ -59,6 +76,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart")
+        start = findViewById(R.id.button_main_start)
+        reset = findViewById(R.id.button_main_reset)
+        stopwatch = findViewById(R.id.chronometer_main_stopwatch)
     }
 
     override fun onResume() {
@@ -80,7 +100,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d(TAG, "onDestroy")
     }
-
-
-
 }

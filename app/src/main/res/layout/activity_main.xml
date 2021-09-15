@@ -7,16 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <Chronometer
         android:id="@+id/chronometer_main_stopwatch"
-        android:layout_width="89dp"
-        android:layout_height="94dp"
-        android:layout_marginTop="412dp"
-        android:layout_marginEnd="72dp"
+        android:layout_width="50dp"
+        android:layout_height="56dp"
         android:scaleX="4"
         android:scaleY="4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.555" />
 
     <Button
         android:id="@+id/button_main_start"
@@ -24,21 +27,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="133dp"
-        android:layout_marginBottom="250dp"
         android:text="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_main_reset"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
 
     <Button
         android:id="@+id/button_main_reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="45dp"
-        android:layout_marginBottom="250dp"
         android:text="reset"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
