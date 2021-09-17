@@ -9,6 +9,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.widget.Button
 import android.widget.Chronometer
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     lateinit var start: Button
@@ -17,38 +18,42 @@ class MainActivity : AppCompatActivity() {
     var on = false
     var time = 0L
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        wireWidgets()
-        start.setOnClickListener {
-            if (!on) {
-                stopwatch.base = SystemClock.elapsedRealtime()+time
-                stopwatch.start()
-                on = true
-            }
-            else if (on){
-                stopwatch.stop()
-                on = false
-                time = (stopwatch.base - SystemClock.elapsedRealtime())
-            }
-        }
-        reset.setOnClickListener {
-            stopwatch.base = SystemClock.elapsedRealtime()
-            time = 0
-        }
-    }
-
     private fun wireWidgets() {
         start = findViewById(R.id.button_main_start)
         reset = findViewById(R.id.button_main_reset)
         stopwatch = findViewById(R.id.chronometer_main_stopwatch)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        wireWidgets()
+        start.setOnClickListener {
+            if (!on) {
+                stopwatch.base = abs(SystemClock.elapsedRealtime()-time)
+                stopwatch.start()
+                on = true
+                start.text="Stop"
+            }
+            else if(on){
+                stopwatch.stop()
+                on = false
+                time = abs ( SystemClock.elapsedRealtime()-stopwatch.base)
+                start.text="Start"
+            }
+        }
+        reset.setOnClickListener {
+            stopwatch.base = abs(SystemClock.elapsedRealtime())
+            time = 0
+        }
+    }
+
+
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if(on){
-            time = (SystemClock.elapsedRealtime()-stopwatch.base)
+            time = abs(SystemClock.elapsedRealtime()-stopwatch.base)
         }
         outState.putLong("saveTime", time)
         outState.putBoolean("saveOn", on)
@@ -56,11 +61,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        time = savedInstanceState.getLong("savedTime")
+        time = savedInstanceState.getLong("saveTime")
         on = savedInstanceState.getBoolean("saveOn")
-        stopwatch.base = SystemClock.elapsedRealtime()-time
+        stopwatch.base = abs(SystemClock.elapsedRealtime()-time)
         if(on){
             stopwatch.start()
+            start.text="Stop"
         }
     }
 
